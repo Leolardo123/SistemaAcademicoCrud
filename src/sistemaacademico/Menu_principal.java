@@ -5,78 +5,24 @@
  */
 package sistemaacademico;
 
-import BD.expressoes_BD;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-import sistemaacademico.Aluno;
-import BD.AlunoDAO;
-import sistemaacademico.Professor;
+import javax.swing.JTabbedPane;
+import jdk.nashorn.internal.runtime.Debug;
 
 /**
  *
  * @author leofe_qbel5qv
  */
-public class Menu_principal extends javax.swing.JFrame {
-    Aluno[] Alunos = new Aluno[40];
-    Professor[] Professores = new Professor[10];
-    public void Listar_Alunos(){
-        Alunos = new Aluno[40];
-        Connection conn = BD.Conexao.getConnection();
-        Statement stmt = null;
-        try{
-            stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM alunos ORDER BY nome");
-            try{
-                int i=0;
-                while(rs.next()){
-                    if(Alunos.length<i){
-                        System.out.println("Alocando mais espaço para alunos no sistema...");
-                        Alunos = Funcoes.maisAlunos(Alunos);
-                    }
-                    Aluno a = new Aluno();
-                    a.setRA(rs.getInt("RA"));
-                    a.setNome(rs.getString("nome"));
-                    a.setCurso(rs.getString("curso"));
-                    a.setEndereço(rs.getString("endereco"));
-                    a.setTelefone(rs.getString("telefone"));
-                    a.setSexo(rs.getString("sexo"));
-                    Alunos[i] = a;
-                    i++;
-                }
-            }catch(SQLException exselect){
-                JOptionPane.showMessageDialog(null, exselect);
-            }
-        }catch(SQLException ex){
-            JOptionPane.showMessageDialog(null,ex);
-        }
-    }
-    private void LoadTable_Alunos(){
-        Listar_Alunos();
-        DefaultTableModel modelo = new DefaultTableModel(new Object[]{"RA","Nome","Curso"},0);
-        for(int i=0;i<Alunos.length;i++){
-            if(Alunos[i]!=null){
-                System.out.print(Alunos[i].getRA()+";");
-                Object linha[] = new Object[]{  Alunos[i].getRA(),
-                                            Alunos[i].getNome(),
-                                            Alunos[i].getCurso()
-                };
-                modelo.addRow(linha);
-            }
-        }
-        System.out.println();
-        tbl_alunos.setModel(modelo);
-    }
+public class Menu_Principal extends javax.swing.JFrame {
+
     /**
      * Creates new form Menu_principal
      */
-    public Menu_principal() { 
+    public Menu_Principal() { 
+        Debug_SA.create_database();
         initComponents();
-        LoadTable_Alunos();
+        jPopupMenuAluno.add(this.Menu_Aluno);
+        jPopupMenuProfessor.add(this.Menu_Professor);
     }
 
     /**
@@ -88,70 +34,157 @@ public class Menu_principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPopupMenuAluno = new javax.swing.JPopupMenu();
+        Menu_Aluno = new javax.swing.JPanel();
+        btn_Remover_Aluno = new javax.swing.JButton();
+        btn_Alterar_Aluno = new javax.swing.JButton();
+        jPopupMenuProfessor = new javax.swing.JPopupMenu();
+        Menu_Professor = new javax.swing.JPanel();
+        btn_Remover_Professor = new javax.swing.JButton();
+        btn_Alterar_Professor = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        tbd = new javax.swing.JTabbedPane();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_alunos = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btn_Adicionar_Aluno = new javax.swing.JButton();
+        btn_Remover_Tudo_Aluno = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbl_professores = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btn_Adicionar_Professor = new javax.swing.JButton();
+        btn_Remover_Tudo_Professor = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+        btn_Remover_Tudo = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
+        btn_Remover_Aluno.setText("Remover");
+        btn_Remover_Aluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Remover_AlunoActionPerformed(evt);
+            }
+        });
+
+        btn_Alterar_Aluno.setText("Alterar");
+        btn_Alterar_Aluno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Alterar_AlunoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Menu_AlunoLayout = new javax.swing.GroupLayout(Menu_Aluno);
+        Menu_Aluno.setLayout(Menu_AlunoLayout);
+        Menu_AlunoLayout.setHorizontalGroup(
+            Menu_AlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(Menu_AlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(Menu_AlunoLayout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addGroup(Menu_AlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_Alterar_Aluno, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Remover_Aluno, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addContainerGap(13, Short.MAX_VALUE)))
+        );
+        Menu_AlunoLayout.setVerticalGroup(
+            Menu_AlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 93, Short.MAX_VALUE)
+            .addGroup(Menu_AlunoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(Menu_AlunoLayout.createSequentialGroup()
+                    .addGap(18, 18, 18)
+                    .addComponent(btn_Remover_Aluno)
+                    .addGap(18, 18, 18)
+                    .addComponent(btn_Alterar_Aluno)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        btn_Remover_Professor.setText("Remover");
+        btn_Remover_Professor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Remover_ProfessorActionPerformed(evt);
+            }
+        });
+
+        btn_Alterar_Professor.setText("Alterar");
+        btn_Alterar_Professor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Alterar_ProfessorActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Menu_ProfessorLayout = new javax.swing.GroupLayout(Menu_Professor);
+        Menu_Professor.setLayout(Menu_ProfessorLayout);
+        Menu_ProfessorLayout.setHorizontalGroup(
+            Menu_ProfessorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+            .addGroup(Menu_ProfessorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(Menu_ProfessorLayout.createSequentialGroup()
+                    .addGap(12, 12, 12)
+                    .addGroup(Menu_ProfessorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(btn_Alterar_Professor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Remover_Professor, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addContainerGap(13, Short.MAX_VALUE)))
+        );
+        Menu_ProfessorLayout.setVerticalGroup(
+            Menu_ProfessorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 93, Short.MAX_VALUE)
+            .addGroup(Menu_ProfessorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(Menu_ProfessorLayout.createSequentialGroup()
+                    .addGap(18, 18, 18)
+                    .addComponent(btn_Remover_Professor)
+                    .addGap(18, 18, 18)
+                    .addComponent(btn_Alterar_Professor)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        tbd.setBackground(new java.awt.Color(204, 204, 204));
+        tbd.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        tbd.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                tbdStateChanged(evt);
+            }
+        });
+
+        jPanel2.setBackground(new java.awt.Color(255, 102, 102));
 
         tbl_alunos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "RA", "Nome", "Curso"
+                "RA", "Nome", "Curso", "Endereço", "Telefone", "Sexo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
+        tbl_alunos.setComponentPopupMenu(jPopupMenuAluno);
         jScrollPane1.setViewportView(tbl_alunos);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Gerenciar Alunos");
 
-        jButton1.setText("Adicionar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_Adicionar_Aluno.setText("Adicionar");
+        btn_Adicionar_Aluno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_Adicionar_AlunoActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Remover");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_Remover_Tudo_Aluno.setText("Remover Tudo");
+        btn_Remover_Tudo_Aluno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Alterar");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btn_Remover_Tudo_AlunoActionPerformed(evt);
             }
         });
 
@@ -161,34 +194,32 @@ public class Menu_principal extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Remover_Tudo_Aluno)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(btn_Adicionar_Aluno)
+                        .addGap(12, 12, 12)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(361, 361, 361)
                 .addComponent(jLabel1)
-                .addGap(188, 188, 188))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel1)
-                .addGap(7, 7, 7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btn_Adicionar_Aluno)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(0, 245, Short.MAX_VALUE))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(btn_Remover_Tudo_Aluno)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -205,34 +236,47 @@ public class Menu_principal extends javax.swing.JFrame {
             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Alunos", jLayeredPane1);
+        tbd.addTab("Alunos", jLayeredPane1);
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        jPanel3.setBackground(new java.awt.Color(204, 255, 153));
+
+        tbl_professores.setBackground(new java.awt.Color(204, 255, 204));
+        tbl_professores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Registro", "Nome", "Curso"
+                "Registro", "Nome", "Matéria", "Endereço", "Telefone", "Sexo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        tbl_professores.setComponentPopupMenu(jPopupMenuProfessor);
+        tbl_professores.setGridColor(new java.awt.Color(204, 204, 255));
+        jScrollPane2.setViewportView(tbl_professores);
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLabel2.setText("Gerenciar Professores");
 
-        jButton4.setText("Adicionar");
+        btn_Adicionar_Professor.setText("Adicionar");
+        btn_Adicionar_Professor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Adicionar_ProfessorActionPerformed(evt);
+            }
+        });
 
-        jButton5.setText("Remover");
-
-        jButton6.setText("Alterar");
+        btn_Remover_Tudo_Professor.setText("Remover Tudo");
+        btn_Remover_Tudo_Professor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_Remover_Tudo_ProfessorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -240,54 +284,43 @@ public class Menu_principal extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(12, 12, 12)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 499, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_Remover_Tudo_Professor)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(btn_Adicionar_Professor)
+                        .addGap(14, 14, 14)))
                 .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(345, 345, 345)
                 .addComponent(jLabel2)
-                .addGap(165, 165, 165))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(12, 12, 12)
                 .addComponent(jLabel2)
-                .addGap(7, 7, 7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(btn_Adicionar_Professor)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton5)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton6)
-                        .addGap(0, 245, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(btn_Remover_Tudo_Professor)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        jTabbedPane1.addTab("Professores", jPanel3);
+        tbd.addTab("Professores", jPanel3);
 
-        jButton7.setText("Limpar BD");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
+        btn_Remover_Tudo.setText("Limpar BD");
+        btn_Remover_Tudo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
+                btn_Remover_TudoActionPerformed(evt);
             }
         });
-
-        jButton8.setText("Criar");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Cria o banco de dados padrão para utilizar o programa");
 
         jLabel4.setText("Deleta todos os itens do banco de dados");
 
@@ -296,43 +329,35 @@ public class Menu_principal extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton7))
+                .addGap(50, 50, 50)
+                .addComponent(btn_Remover_Tudo)
                 .addGap(28, 28, 28)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel4))
-                .addContainerGap(199, Short.MAX_VALUE))
+                .addComponent(jLabel4)
+                .addContainerGap(637, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addGap(42, 42, 42)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton7)
+                    .addComponent(btn_Remover_Tudo)
                     .addComponent(jLabel4))
-                .addContainerGap(309, Short.MAX_VALUE))
+                .addContainerGap(341, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("DEBUG", jPanel4);
+        tbd.addTab("DEBUG", jPanel4);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 621, Short.MAX_VALUE)
+            .addComponent(tbd)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1))
+                .addComponent(tbd))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -353,38 +378,147 @@ public class Menu_principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_Adicionar_AlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Adicionar_AlunoActionPerformed
         // TODO add your handling code here:
-        cadastrarAluno();
-        LoadTable_Alunos();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        Formulario_Register_Aluno f = new Formulario_Register_Aluno();
+        f.setVisible(true);
+    }//GEN-LAST:event_btn_Adicionar_AlunoActionPerformed
     
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btn_Alterar_AlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Alterar_AlunoActionPerformed
         // TODO add your handling code here:
-        int RA = Integer.parseInt(JOptionPane.showInputDialog("Digite o RA do Aluno..."));
-        Aluno a = pesquisarAluno(RA);
-        alterarAluno(a);
-        LoadTable_Alunos();
-    }//GEN-LAST:event_jButton3ActionPerformed
+        try{
+            
+            int fila = tbl_alunos.getSelectedRow();
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        int RA = Integer.parseInt(JOptionPane.showInputDialog("Digite o RA do Aluno..."));
-        excluirAluno(RA);
-        LoadTable_Alunos();
-    }//GEN-LAST:event_jButton2ActionPerformed
+            Formulario_Update_Aluno f = new Formulario_Update_Aluno();
+            f.lblRA.setText(tbl_alunos.getValueAt(fila, 0).toString());
+            f.txtNome.setText(tbl_alunos.getValueAt(fila, 1).toString());
+            f.txtCurso.setText(tbl_alunos.getValueAt(fila, 2).toString());
+            f.txtEndereco.setText(tbl_alunos.getValueAt(fila, 3).toString());
+            f.txtTelefone.setText(tbl_alunos.getValueAt(fila, 4).toString());
+            f.txtSexo.setText(tbl_alunos.getValueAt(fila, 5).toString());
+            f.setVisible(true);
+        }catch(Exception e){
+            System.out.println("nenhuma linha selecionada");
+        }
+    }//GEN-LAST:event_btn_Alterar_AlunoActionPerformed
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+    private void btn_Remover_AlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Remover_AlunoActionPerformed
         // TODO add your handling code here:
-        debug.Delete_All();
-        LoadTable_Alunos();
-    }//GEN-LAST:event_jButton7ActionPerformed
+        try{
+            int fila = tbl_alunos.getSelectedRow();
 
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+            Sentenca_Aluno s = new Sentenca_Aluno();
+
+            s.setRA(tbl_alunos.getValueAt(fila, 0).toString());
+
+            if(Funcoes_Aluno.isDelete(s)){
+                Funcoes_Aluno.setListar("");
+                JOptionPane.showMessageDialog(this, "Registro Eliminado com Sucesso", "INFORMAÇÂO", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Erro ao Eliminar Registro", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            System.out.println("nenhuma linha selecionada");
+        }
+    }//GEN-LAST:event_btn_Remover_AlunoActionPerformed
+
+    private void btn_Remover_TudoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Remover_TudoActionPerformed
         // TODO add your handling code here:
-        debug.create_database();
-        LoadTable_Alunos();
-    }//GEN-LAST:event_jButton8ActionPerformed
+        Debug_SA.Delete_All();
+    }//GEN-LAST:event_btn_Remover_TudoActionPerformed
+
+    private void btn_Remover_Tudo_AlunoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Remover_Tudo_AlunoActionPerformed
+        // TODO add your handling code here:
+        Object[] options = { "Sim", "Cancelar" };
+        int opt = JOptionPane.showOptionDialog(null, "Tem certeza que deseja deletar TODOS os alunos?", "Informação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        if(opt==1){
+            return;
+        }
+        
+        Sentenca_Aluno s = new Sentenca_Aluno();
+        
+        if(Funcoes_Aluno.isTruncate(s)){
+            Funcoes_Aluno.setListar("");
+            JOptionPane.showMessageDialog(this, "Registros Eliminados com Sucesso", "INFORMAÇÂO", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao Eliminar os Registros", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_Remover_Tudo_AlunoActionPerformed
+
+    private void btn_Adicionar_ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Adicionar_ProfessorActionPerformed
+        // TODO add your handling code here:
+        Formulario_Register_Professor f = new Formulario_Register_Professor();
+        f.setVisible(true);
+    }//GEN-LAST:event_btn_Adicionar_ProfessorActionPerformed
+
+    private void btn_Remover_Tudo_ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Remover_Tudo_ProfessorActionPerformed
+        // TODO add your handling code here:
+        Object[] options = { "Sim", "Cancelar" };
+        int opt = JOptionPane.showOptionDialog(null, "Tem certeza que deseja deletar TODOS os professores?", "Informação", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+        if(opt==1){
+            return;
+        }
+        
+        Sentenca_Professor s = new Sentenca_Professor();
+        
+        if(Funcoes_Professor.isTruncate(s)){
+            Funcoes_Professor.setListar("");
+            JOptionPane.showMessageDialog(this, "Registros Eliminados com Sucesso", "INFORMAÇÂO", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            JOptionPane.showMessageDialog(this, "Erro ao Eliminar os Registros", "ERRO", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btn_Remover_Tudo_ProfessorActionPerformed
+
+    private void btn_Remover_ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Remover_ProfessorActionPerformed
+        // TODO add your handling code here:
+        try{
+            int fila = tbl_professores.getSelectedRow();
+
+            Sentenca_Professor s = new Sentenca_Professor();
+
+            s.setRegistro(tbl_professores.getValueAt(fila, 0).toString());
+
+            if(Funcoes_Professor.isDelete(s)){
+                Funcoes_Professor.setListar("");
+                JOptionPane.showMessageDialog(this, "Registro Eliminado com Sucesso", "INFORMAÇÂO", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                JOptionPane.showMessageDialog(this, "Erro ao Eliminar Registro", "ERRO", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            System.out.println("nenhuma linha selecionada");
+        }
+    }//GEN-LAST:event_btn_Remover_ProfessorActionPerformed
+
+    private void btn_Alterar_ProfessorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_Alterar_ProfessorActionPerformed
+        // TODO add your handling code here:
+        try{  
+            int fila = tbl_professores.getSelectedRow();
+
+            Formulario_Update_Professor f = new Formulario_Update_Professor();
+            f.lblRegistro.setText(tbl_professores.getValueAt(fila, 0).toString());
+            f.txtNome.setText(tbl_professores.getValueAt(fila, 1).toString());
+            f.txtMateria.setText(tbl_professores.getValueAt(fila, 2).toString());
+            f.txtEndereco.setText(tbl_professores.getValueAt(fila, 3).toString());
+            f.txtTelefone.setText(tbl_professores.getValueAt(fila, 4).toString());
+            f.txtSexo.setText(tbl_professores.getValueAt(fila, 5).toString());
+            f.setVisible(true);
+        }catch(Exception e){
+            System.out.println("nenhuma linha selecionada");
+        }
+    }//GEN-LAST:event_btn_Alterar_ProfessorActionPerformed
+
+    private void tbdStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_tbdStateChanged
+        // TODO add your handling code here:
+        JTabbedPane sourceTabbedPane = (JTabbedPane) evt.getSource();
+        int index = sourceTabbedPane.getSelectedIndex();
+        String tbd_title = sourceTabbedPane.getTitleAt(index);
+        if( "Alunos".equals(tbd_title) ){
+            Funcoes_Aluno.setListar("");
+        }else if("Professores".equals(tbd_title)){
+            Funcoes_Professor.setListar("");
+        }
+    }//GEN-LAST:event_tbdStateChanged
 
     /**
      * @param args the command line arguments
@@ -403,159 +537,53 @@ public class Menu_principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu_principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-                new Menu_principal().setVisible(true);
+                new Menu_Principal().setVisible(true);
             }
         });
         
     }
 
-    boolean cadastrarAluno() {
-                Aluno a = new Aluno();
-                int ver=0;
-                do{
-                    a.setRA(Integer.parseInt(JOptionPane.showInputDialog("Digite o RA do aluno")));
-                    if(pesquisarAluno(a.getRA())!=null){
-                        JOptionPane.showMessageDialog(null,"Já existe um aluno com este RA no sistema!");
-                    }else{
-                        ver=1;
-                    }
-                }while(ver!=1);
-		a.setNome(JOptionPane.showInputDialog("Digite o nome do aluno"));
-		a.setCurso(JOptionPane.showInputDialog("Digite o curso do aluno"));
-		a.setEndereço(JOptionPane.showInputDialog("Digite o endereço do aluno"));
-		a.setTelefone(JOptionPane.showInputDialog("Digite o telefone do aluno"));
-                a.setSexo(Funcoes.setSexoMenu());
-                
-                for(int i=0;i<Alunos.length;i++){
-                    if(Alunos[i]==null){
-                            Alunos[i] = a;
-                            AlunoDAO.create(a);
-                            return true;
-                    }
-                }
-                
-                System.out.println("Alocando mais espaço para alunos no sistema...");
-                Alunos = Funcoes.maisAlunos(Alunos);
-                for(int i=0;i<Alunos.length;i++){
-                    if(Alunos[i]==null){
-                        Alunos[i] = a;
-                        AlunoDAO.create(a);
-                        return true;
-                    }
-                }
-		return false;
-	}
-	boolean excluirAluno(int RA) { 
-            Aluno a = pesquisarAluno(RA);
-            if(a==null){
-                return false;
-            }
-            if(BD.AlunoDAO.delete(a.getRA())==true){
-                a=null;
-                return true;
-            }else{
-                return false;
-            }
-        }
-	boolean alterarAluno(Aluno a) {
-            int i=0;
-            int opt=0;
-            Aluno original = new Aluno();//original armazena o item original para recuperação
-            original.setRA(a.getRA());
-            original.setNome(a.getNome());
-            original.setCurso(a.getCurso());
-            original.setEndereço(a.getEndereço());
-            original.setTelefone(a.getTelefone());
-            original.setSexo(a.getSexo());
-            do{
-               opt = Integer.parseInt(JOptionPane.showInputDialog("Selecione o que deseja alterar:\n1)-RA\n2)-Nome\n3)-Curso\n4)-Endereço\n5)-Telefone\n6)-Sexo\n\nDigite -1 para prosseguir"));
-               switch(opt){
-                    case -1://Mostra os dados alterados para que ocorra a confirmação
-                        int confirma;
-                        do{
-                          confirma =Integer.parseInt(JOptionPane.showInputDialog("Tem certeza de que deseja prosseguir com as alterações? \n"
-                          + "RA      :"+original.getRA()+" -> "+ a.getRA()+"\n"
-                          + "Nome    :"+original.getNome()+" -> "+ a.getNome()+"\n"
-                          + "Curso   :"+original.getCurso()+" -> "+ a.getCurso()+"\n"
-                          + "Endereço:"+original.getEndereço()+" -> "+ a.getEndereço()+"\n"
-                          + "Telefone:"+original.getTelefone()+" -> "+ a.getTelefone()+"\n"
-                          + "Sexo:    "+original.getSexo()+" -> "+ a.getSexo()+"\n"
-                          + "\n 1)-Sim  2)-Não 3)-Sair sem Alterar"));
-                          switch(confirma){
-                              case 1: break;
-                              case 2: opt=0;break;//impede que o loop principal do menu (switch(opt)) termine
-                              case 3: 
-                                  a.setRA(original.getRA());
-                                  a.setNome(original.getNome());
-                                  a.setCurso(original.getCurso());
-                                  a.setEndereço(original.getEndereço());
-                                  a.setTelefone(original.getTelefone());
-                                  a.setSexo(original.getSexo());
-                                  return false;
-                              default:JOptionPane.showMessageDialog(null, "A opção:"+confirma+" não existe!");break;
-                          }
-                        }while(confirma!=1&&confirma!=2);
-                        break;
-                    case  1:a.setRA(Integer.parseInt(JOptionPane.showInputDialog("Original:"+original.getRA()+"\nDigite o RA novo")));break;
-                    case  2:a.setNome(JOptionPane.showInputDialog("Original:"+original.getNome()+"\nDigite o Nome novo"));break;
-                    case  3:a.setCurso(JOptionPane.showInputDialog("Original:"+original.getCurso()+"\nDigite o Curso novo"));break;
-                    case  4:a.setEndereço(JOptionPane.showInputDialog("Original:"+original.getEndereço()+"\nDigite o Endereço novo"));break;
-                    case  5:a.setTelefone(JOptionPane.showInputDialog("Original:"+original.getTelefone()+"\nDigite o Telefone novo"));break;
-                    case  6:
-                        a.setSexo(Funcoes.setSexoMenu());
-                        break;
-                    default:JOptionPane.showMessageDialog(null, "A opção:"+opt+" não existe!");break;
-               }
-            }while(opt!=-1);
-            
-            return false;
-	}
-	Aluno pesquisarAluno(int RA) {
-                for(int i=0;i<Alunos.length;i++){
-                    if(Alunos[i]!=null){
-                        if(Alunos[i].getRA()==RA){
-                            return Alunos[i];
-                        }
-                    }
-                }
-                return null;
-	}
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
+    private javax.swing.JPanel Menu_Aluno;
+    private javax.swing.JPanel Menu_Professor;
+    private javax.swing.JButton btn_Adicionar_Aluno;
+    private javax.swing.JButton btn_Adicionar_Professor;
+    private javax.swing.JButton btn_Alterar_Aluno;
+    private javax.swing.JButton btn_Alterar_Professor;
+    private javax.swing.JButton btn_Remover_Aluno;
+    private javax.swing.JButton btn_Remover_Professor;
+    private javax.swing.JButton btn_Remover_Tudo;
+    private javax.swing.JButton btn_Remover_Tudo_Aluno;
+    private javax.swing.JButton btn_Remover_Tudo_Professor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JPopupMenu jPopupMenuAluno;
+    private javax.swing.JPopupMenu jPopupMenuProfessor;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable tbl_alunos;
+    private javax.swing.JTabbedPane tbd;
+    public static javax.swing.JTable tbl_alunos;
+    public static javax.swing.JTable tbl_professores;
     // End of variables declaration//GEN-END:variables
 }

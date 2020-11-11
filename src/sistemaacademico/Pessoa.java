@@ -12,17 +12,22 @@ import javax.swing.JOptionPane;
  * @author leofe_qbel5qv
  */
 public class Pessoa {
+        private String nome;
+	private String endereco;
+	private String telefone;
+	private String sexo;
+        
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public String getEndereço() {
-		return endereço;
+	public String getEndereco() {
+		return endereco;
 	}
-	public void setEndereço(String endereço) {
-		this.endereço = endereço;
+	public void setEndereco(String endereço) {
+		this.endereco = endereço;
 	}
 	public String getTelefone() {
 		return telefone;
@@ -36,8 +41,4 @@ public class Pessoa {
 	public void setSexo(String sexo) {
 	    this.sexo = sexo;
 	}
-	private String nome;
-	private String endereço;
-	private String telefone;
-	private String sexo;
 }
